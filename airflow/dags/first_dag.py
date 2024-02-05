@@ -16,7 +16,7 @@ dag = DAG(
     'sample_dag',
     default_args=default_args,
     description='A simple DAG for demonstration purposes',
-    schedule_interval=timedelta(days=1),  # Set the schedule interval as needed
+    schedule_interval='@once',  # Set the schedule interval as needed
 )
 
 # Define a Python function to print a message
