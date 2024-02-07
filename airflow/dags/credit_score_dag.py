@@ -254,5 +254,6 @@ with DAG(
 	
 ##########################################################################
 # Pipeline
-rds_to_s3_group >> s3_to_snf_group >> process_snf_data >> clustering_function
+# rds_to_s3_group >> s3_to_snf_group >> 
+process_snf_data >> clustering_function
 ##########################################################################
