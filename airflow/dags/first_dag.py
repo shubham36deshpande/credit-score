@@ -43,6 +43,3 @@ perform_operation_task = PythonOperator(
 
 # Set the task dependencies
 print_message_task >> perform_operation_task
-
-if __name__ == "__main__":
-    dag.cli()
