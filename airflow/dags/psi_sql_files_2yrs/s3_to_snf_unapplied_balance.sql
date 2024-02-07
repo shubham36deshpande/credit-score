@@ -1,0 +1,24 @@
+copy into PSI_RAW_DATA.PSI.unapplied_balance(
+ID,
+CLIENT_ID,
+SUPPLIER,
+STATUS_INDEX,
+STATUS,
+UNAPPLIED_AMOUNT,
+INVOICE_DATE,
+STATUS_SHORT,
+DISPLAY_NAME
+)
+from (
+select
+$2 as ID,
+$3 as CLIENT_ID,
+$4 as SUPPLIER,
+$5 as STATUS_INDEX,
+$6 as STATUS,
+$7 as UNAPPLIED_AMOUNT,
+$8 as INVOICE_DATE,
+$9 as STATUS_SHORT,
+$10 as DISPLAY_NAME
+FROM @PSI_RAW_DATA.psi.S3_INTEGRATION/psi_data/unapplied_balance.csv)
+FILE_FORMAT = (FORMAT_NAME = 'PSI_RAW_DATA.psi.S3_csv_to_snowflake');
