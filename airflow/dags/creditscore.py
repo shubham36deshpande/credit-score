@@ -145,13 +145,13 @@ def process_snf_data():
         cs = cnx.cursor()
         file = 'constant_values'
 
-        # '/opt/result/output.csv'
-        constant_values.to_csv("/opt/result/output.csv", header=True, index=False)
+        # '/opt/airflow/output.csv'
+        constant_values.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
         cs.execute("Truncate Table CREDIT_SCORE_PHASE2_DEV.psi.constant_values;")
 
         cs.execute("""
-            PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
+            PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
         """)
 
         cs.execute("""
@@ -161,7 +161,7 @@ def process_snf_data():
         """)
 
         cnx.commit()
-        os.remove("/opt/result/output.csv")
+        os.remove("/opt/airflow/output.csv")
 
     check_constant_values()
     constant_values = pd.read_sql('select * from CREDIT_SCORE_PHASE2_DEV.psi.constant_values;',cnx)
@@ -1271,11 +1271,11 @@ def process_snf_data():
 
     cs = cnn.cursor()
 
-    # '/opt/result/output.csv'
-    historical_cust_supp_map.to_csv("/opt/result/output.csv", header=True, index=False)
+    # '/opt/airflow/output.csv'
+    historical_cust_supp_map.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     """)
 
     cs.execute("""
@@ -1285,7 +1285,7 @@ def process_snf_data():
     """)
 
     cnn.commit()
-    os.remove("/opt/result/output.csv")
+    os.remove("/opt/airflow/output.csv")
 
 
 
@@ -1370,11 +1370,11 @@ def process_snf_data():
     cs = cnn.cursor()
     file = 'supplier_reason'
 
-    # '/opt/result/output.csv'
-    missing_rows.to_csv("/opt/result/output.csv", header=True, index=False)
+    # '/opt/airflow/output.csv'
+    missing_rows.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     """)
 
     cs.execute("""
@@ -1384,7 +1384,7 @@ def process_snf_data():
     """)
 
     cnn.commit()
-    os.remove("/opt/result/output.csv")
+    os.remove("/opt/airflow/output.csv")
 
     # ----------------------------------------------------------------------------------------------------------------------
     # supplier_reason['weight'] = 0.1
@@ -1394,11 +1394,11 @@ def process_snf_data():
     # cs = cnn.cursor()
     # cs.execute("""TRUNCATE TABLE IF EXISTS """ + file + """""")
 
-    # # '/opt/result/output.csv'
-    # supplier_reason.to_csv("/opt/result/output.csv", header=True, index=False)
+    # # '/opt/airflow/output.csv'
+    # supplier_reason.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
     # cs.execute("""
-    #     PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
+    #     PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     # """)
 
     # cs.execute("""
@@ -1408,7 +1408,7 @@ def process_snf_data():
     # """)
 
     # cnn.commit()
-    # os.remove("/opt/result/output.csv")
+    # os.remove("/opt/airflow/output.csv")
 
     # cs = cnn.cursor()
     # cs.execute("SHOW TABLES LIKE 'supplier_reason' ")
@@ -1421,10 +1421,10 @@ def process_snf_data():
     #     if i <= len(df):
     #         rest_of_df = df.iloc[i:]
     #         rest_of_df.to_csv(
-    #             '/opt/result/output.csv', index=False)
+    #             '/opt/airflow/output.csv', index=False)
 
     #         cs.execute("""
-    #         PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
+    #         PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     """)
     #     cs.execute("""
     #         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
@@ -1432,7 +1432,7 @@ def process_snf_data():
     #         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     #     """)
     #     cnn.commit()
-    #     os.remove('/opt/result/output.csv')
+    #     os.remove('/opt/airflow/output.csv')
 
     engine = create_engine(URL(account='blb89802.us-east-1', user='RGUPTA', password='Rachana.growexx@112',
                        database='CREDIT_SCORE_PHASE2_DEV', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
@@ -1462,11 +1462,11 @@ def process_snf_data():
     cs = cnn.cursor()
     file = 'customer_reason'
 
-    # '/opt/result/output.csv'
-    missing_rows.to_csv("/opt/result/output.csv", header=True, index=False)
+    # '/opt/airflow/output.csv'
+    missing_rows.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     """)
 
     cs.execute("""
@@ -1476,7 +1476,7 @@ def process_snf_data():
     """)
 
     cnn.commit()
-    os.remove("/opt/result/output.csv")
+    os.remove("/opt/airflow/output.csv")
 
 
     # --------------------------------------------------------------------------------------------------
@@ -1488,11 +1488,11 @@ def process_snf_data():
     # cs = cnn.cursor()
     # cs.execute("""TRUNCATE TABLE IF EXISTS """ + file + """""")
 
-    # # '/opt/result/output.csv'
-    # customer_reason.to_csv("/opt/result/output.csv", header=True, index=False)
+    # # '/opt/airflow/output.csv'
+    # customer_reason.to_csv("/opt/airflow/output.csv", header=True, index=False)
 
     # cs.execute("""
-    #     PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
+    #     PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     # """)
 
     # cs.execute("""
@@ -1502,7 +1502,7 @@ def process_snf_data():
     # """)
 
     # cnn.commit()
-    # os.remove("/opt/result/output.csv")
+    # os.remove("/opt/airflow/output.csv")
 
     # cs = cnn.cursor()
     # cs.execute("SHOW TABLES LIKE 'customer_reason' ")
@@ -1515,10 +1515,10 @@ def process_snf_data():
     #     if i <= len(df):
     #         rest_of_df = df.iloc[i:]
     #         rest_of_df.to_csv(
-    #             '/opt/result/output.csv', index=False)
+    #             '/opt/airflow/output.csv', index=False)
 
     #         cs.execute("""
-    #         PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
+    #         PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     """)
     #     cs.execute("""
     #         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
@@ -1526,7 +1526,7 @@ def process_snf_data():
     #         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     #     """)
     #     cnn.commit()
-    #     os.remove('/opt/result/output.csv')
+    #     os.remove('/opt/airflow/output.csv')
 
 
     # # Predictor Fields
@@ -2414,17 +2414,17 @@ def process_snf_data():
     Supplier_Score['is_flagged'] = 0
 
     Predictor_ten.to_csv(
-        '/opt/result/Predictor_ten.csv', index=False)
+        '/opt/airflow/Predictor_ten.csv', index=False)
     Predictor_thirty.to_csv(
-        '/opt/result/Predictor_thirty.csv', index=False)
+        '/opt/airflow/Predictor_thirty.csv', index=False)
     Customer_Score.to_csv(
-        '/opt/result/Customer_Score.csv', index=False)
+        '/opt/airflow/Customer_Score.csv', index=False)
     Customer_Parameter_Weights.to_csv(
-        '/opt/result/Customer_Parameter_Weights.csv', index=False)
+        '/opt/airflow/Customer_Parameter_Weights.csv', index=False)
     Supplier_Score.to_csv(
-        '/opt/result/Supplier_Score.csv', index=False)
+        '/opt/airflow/Supplier_Score.csv', index=False)
     Supplier_Parameter_Weights.to_csv(
-        '/opt/result/Supplier_Parameter_Weights.csv', index=False)
+        '/opt/airflow/Supplier_Parameter_Weights.csv', index=False)
 
 
 
@@ -3447,10 +3447,10 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/opt/result/output.csv', index=False)
+            '/opt/airflow/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
@@ -3458,7 +3458,7 @@ def process_snf_data():
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/opt/result/output.csv')
+    os.remove('/opt/airflow/output.csv')
 
     # In[45]:
 
@@ -3498,10 +3498,10 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/opt/result/output.csv', index=False)
+            '/opt/airflow/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
@@ -3509,7 +3509,7 @@ def process_snf_data():
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/opt/result/output.csv')
+    os.remove('/opt/airflow/output.csv')
 
     # In[46]:
     # import pandas as pd
@@ -3551,10 +3551,10 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/opt/result/output.csv', index=False)
+            '/opt/airflow/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
@@ -3562,7 +3562,7 @@ def process_snf_data():
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/opt/result/output.csv')
+    os.remove('/opt/airflow/output.csv')
 
     # In[47]:
 
@@ -3601,10 +3601,10 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/opt/result/output.csv', index=False)
+            '/opt/airflow/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
+        PUT 'file:///opt/airflow/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
@@ -3612,4 +3612,4 @@ def process_snf_data():
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/opt/result/output.csv')
+    os.remove('/opt/airflow/output.csv')
