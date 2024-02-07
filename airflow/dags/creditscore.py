@@ -48,7 +48,7 @@ def process_snf_data():
     account = 'blb89802.us-east-1'
     user = 'RGUPTA'
     password = 'Rachana.growexx@112'
-    db = 'CREDIT_SCORE_PHASE2'
+    db = 'CREDIT_SCORE_PHASE2_DEV'
     schema = 'psi'
     warehouse = 'credit_score_wh'
     role = 'ACCOUNTADMIN'
@@ -102,7 +102,7 @@ def process_snf_data():
                     }
 
         # Read the entire table
-        constant_values = pd.read_sql('select * from credit_score_phase2.psi.constant_values;',cnx)
+        constant_values = pd.read_sql('select * from CREDIT_SCORE_PHASE2_DEV.psi.constant_values;',cnx)
         constant_values.columns = constant_values.columns.str.lower()
 
         for id_ in [id_c1, id_c2, id_c3, id_c4, id_c5]:
@@ -145,26 +145,26 @@ def process_snf_data():
         cs = cnx.cursor()
         file = 'constant_values'
 
-        # '/home/ubuntu/Result/output.csv'
-        constant_values.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+        # '/opt/result/output.csv'
+        constant_values.to_csv("/opt/result/output.csv", header=True, index=False)
 
-        cs.execute("Truncate Table CREDIT_SCORE_PHASE2.psi.constant_values;")
+        cs.execute("Truncate Table CREDIT_SCORE_PHASE2_DEV.psi.constant_values;")
 
         cs.execute("""
-            PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """ OVERWRITE=TRUE
+            PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
         """)
 
         cs.execute("""
-            COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-            FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+            COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+            FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
             FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
         """)
 
         cnx.commit()
-        os.remove("/home/ubuntu/Result/output.csv")
+        os.remove("/opt/result/output.csv")
 
     check_constant_values()
-    constant_values = pd.read_sql('select * from CREDIT_SCORE_PHASE2.psi.constant_values;',cnx)
+    constant_values = pd.read_sql('select * from CREDIT_SCORE_PHASE2_DEV.psi.constant_values;',cnx)
     constant_values.columns = constant_values.columns.str.lower()
 
     c1_value = constant_values[constant_values['id']=='c1'].values[0][1]
@@ -1240,9 +1240,9 @@ def process_snf_data():
     # In[17]:
 
     engine = create_engine(URL(account='blb89802.us-east-1', user='RGUPTA', password='Rachana.growexx@112',
-                           database='CREDIT_SCORE_PHASE2', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
+                           database='CREDIT_SCORE_PHASE2_DEV', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
     cnn = snowflake.connector.connect(user='RGUPTA', password='Rachana.growexx@112', account='blb89802.us-east-1',
-                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2', schema='psi', role='ACCOUNTADMIN')
+                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2_DEV', schema='psi', role='ACCOUNTADMIN')
     connection = engine.connect()
 
     # #############################
@@ -1271,21 +1271,21 @@ def process_snf_data():
 
     cs = cnn.cursor()
 
-    # '/home/ubuntu/Result/output.csv'
-    historical_cust_supp_map.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+    # '/opt/result/output.csv'
+    historical_cust_supp_map.to_csv("/opt/result/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     """)
 
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
 
     cnn.commit()
-    os.remove("/home/ubuntu/Result/output.csv")
+    os.remove("/opt/result/output.csv")
 
 
 
@@ -1349,9 +1349,9 @@ def process_snf_data():
     # supplier_reason
 
     engine = create_engine(URL(account='blb89802.us-east-1', user='RGUPTA', password='Rachana.growexx@112',
-                       database='CREDIT_SCORE_PHASE2', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
+                       database='CREDIT_SCORE_PHASE2_DEV', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
     cnn = snowflake.connector.connect(user='RGUPTA', password='Rachana.growexx@112', account='blb89802.us-east-1',
-                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2', schema='psi', role='ACCOUNTADMIN')
+                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2_DEV', schema='psi', role='ACCOUNTADMIN')
     connection = engine.connect()
 
     query = ("select * from supplier_reason")
@@ -1370,21 +1370,21 @@ def process_snf_data():
     cs = cnn.cursor()
     file = 'supplier_reason'
 
-    # '/home/ubuntu/Result/output.csv'
-    missing_rows.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+    # '/opt/result/output.csv'
+    missing_rows.to_csv("/opt/result/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """ OVERWRITE=TRUE
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     """)
 
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
 
     cnn.commit()
-    os.remove("/home/ubuntu/Result/output.csv")
+    os.remove("/opt/result/output.csv")
 
     # ----------------------------------------------------------------------------------------------------------------------
     # supplier_reason['weight'] = 0.1
@@ -1394,21 +1394,21 @@ def process_snf_data():
     # cs = cnn.cursor()
     # cs.execute("""TRUNCATE TABLE IF EXISTS """ + file + """""")
 
-    # # '/home/ubuntu/Result/output.csv'
-    # supplier_reason.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+    # # '/opt/result/output.csv'
+    # supplier_reason.to_csv("/opt/result/output.csv", header=True, index=False)
 
     # cs.execute("""
-    #     PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """ OVERWRITE=TRUE
+    #     PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     # """)
 
     # cs.execute("""
-    #     COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-    #     FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #     COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+    #     FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     # """)
 
     # cnn.commit()
-    # os.remove("/home/ubuntu/Result/output.csv")
+    # os.remove("/opt/result/output.csv")
 
     # cs = cnn.cursor()
     # cs.execute("SHOW TABLES LIKE 'supplier_reason' ")
@@ -1421,23 +1421,23 @@ def process_snf_data():
     #     if i <= len(df):
     #         rest_of_df = df.iloc[i:]
     #         rest_of_df.to_csv(
-    #             '/home/ubuntu/Result/output.csv', index=False)
+    #             '/opt/result/output.csv', index=False)
 
     #         cs.execute("""
-    #         PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #         PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     """)
     #     cs.execute("""
-    #         COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-    #         FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+    #         FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     #     """)
     #     cnn.commit()
-    #     os.remove('/home/ubuntu/Result/output.csv')
+    #     os.remove('/opt/result/output.csv')
 
     engine = create_engine(URL(account='blb89802.us-east-1', user='RGUPTA', password='Rachana.growexx@112',
-                       database='CREDIT_SCORE_PHASE2', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
+                       database='CREDIT_SCORE_PHASE2_DEV', schema='psi', warehouse='credit_score_wh', role='ACCOUNTADMIN'))
     cnn = snowflake.connector.connect(user='RGUPTA', password='Rachana.growexx@112', account='blb89802.us-east-1',
-                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2', schema='psi', role='ACCOUNTADMIN')
+                                      warehouse='credit_score_wh', database='CREDIT_SCORE_PHASE2_DEV', schema='psi', role='ACCOUNTADMIN')
     connection = engine.connect()
 
     # customer_reason
@@ -1462,21 +1462,21 @@ def process_snf_data():
     cs = cnn.cursor()
     file = 'customer_reason'
 
-    # '/home/ubuntu/Result/output.csv'
-    missing_rows.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+    # '/opt/result/output.csv'
+    missing_rows.to_csv("/opt/result/output.csv", header=True, index=False)
 
     cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """ OVERWRITE=TRUE
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     """)
 
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
 
     cnn.commit()
-    os.remove("/home/ubuntu/Result/output.csv")
+    os.remove("/opt/result/output.csv")
 
 
     # --------------------------------------------------------------------------------------------------
@@ -1488,21 +1488,21 @@ def process_snf_data():
     # cs = cnn.cursor()
     # cs.execute("""TRUNCATE TABLE IF EXISTS """ + file + """""")
 
-    # # '/home/ubuntu/Result/output.csv'
-    # customer_reason.to_csv("/home/ubuntu/Result/output.csv", header=True, index=False)
+    # # '/opt/result/output.csv'
+    # customer_reason.to_csv("/opt/result/output.csv", header=True, index=False)
 
     # cs.execute("""
-    #     PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """ OVERWRITE=TRUE
+    #     PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """ OVERWRITE=TRUE
     # """)
 
     # cs.execute("""
-    #     COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-    #     FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #     COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+    #     FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     # """)
 
     # cnn.commit()
-    # os.remove("/home/ubuntu/Result/output.csv")
+    # os.remove("/opt/result/output.csv")
 
     # cs = cnn.cursor()
     # cs.execute("SHOW TABLES LIKE 'customer_reason' ")
@@ -1515,18 +1515,18 @@ def process_snf_data():
     #     if i <= len(df):
     #         rest_of_df = df.iloc[i:]
     #         rest_of_df.to_csv(
-    #             '/home/ubuntu/Result/output.csv', index=False)
+    #             '/opt/result/output.csv', index=False)
 
     #         cs.execute("""
-    #         PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #         PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #     """)
     #     cs.execute("""
-    #         COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file + """
-    #         FROM @CREDIT_SCORE_PHASE2.psi.%""" + file + """
+    #         COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file + """
+    #         FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file + """
     #         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     #     """)
     #     cnn.commit()
-    #     os.remove('/home/ubuntu/Result/output.csv')
+    #     os.remove('/opt/result/output.csv')
 
 
     # # Predictor Fields
@@ -2414,17 +2414,17 @@ def process_snf_data():
     Supplier_Score['is_flagged'] = 0
 
     Predictor_ten.to_csv(
-        '/home/ubuntu/Result/Predictor_ten.csv', index=False)
+        '/opt/result/Predictor_ten.csv', index=False)
     Predictor_thirty.to_csv(
-        '/home/ubuntu/Result/Predictor_thirty.csv', index=False)
+        '/opt/result/Predictor_thirty.csv', index=False)
     Customer_Score.to_csv(
-        '/home/ubuntu/Result/Customer_Score.csv', index=False)
+        '/opt/result/Customer_Score.csv', index=False)
     Customer_Parameter_Weights.to_csv(
-        '/home/ubuntu/Result/Customer_Parameter_Weights.csv', index=False)
+        '/opt/result/Customer_Parameter_Weights.csv', index=False)
     Supplier_Score.to_csv(
-        '/home/ubuntu/Result/Supplier_Score.csv', index=False)
+        '/opt/result/Supplier_Score.csv', index=False)
     Supplier_Parameter_Weights.to_csv(
-        '/home/ubuntu/Result/Supplier_Parameter_Weights.csv', index=False)
+        '/opt/result/Supplier_Parameter_Weights.csv', index=False)
 
 
 
@@ -3447,18 +3447,18 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/home/ubuntu/Result/output.csv', index=False)
+            '/opt/result/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file1 + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/home/ubuntu/Result/output.csv')
+    os.remove('/opt/result/output.csv')
 
     # In[45]:
 
@@ -3498,18 +3498,18 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/home/ubuntu/Result/output.csv', index=False)
+            '/opt/result/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file1 + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/home/ubuntu/Result/output.csv')
+    os.remove('/opt/result/output.csv')
 
     # In[46]:
     # import pandas as pd
@@ -3551,18 +3551,18 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/home/ubuntu/Result/output.csv', index=False)
+            '/opt/result/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file1 + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/home/ubuntu/Result/output.csv')
+    os.remove('/opt/result/output.csv')
 
     # In[47]:
 
@@ -3601,15 +3601,15 @@ def process_snf_data():
     if i <= len(df):
         rest_of_df = df.iloc[i:]
         rest_of_df.to_csv(
-            '/home/ubuntu/Result/output.csv', index=False)
+            '/opt/result/output.csv', index=False)
 
         cs.execute("""
-        PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        PUT 'file:///opt/result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
     """)
     cs.execute("""
-        COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file1 + """
-        FROM @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+        COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
+        FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
         FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
     """)
     cnn.commit()
-    os.remove('/home/ubuntu/Result/output.csv')
+    os.remove('/opt/result/output.csv')
