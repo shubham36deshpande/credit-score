@@ -26,7 +26,7 @@ from clustering_function import clustering_function
 default_args = {
     'owner': 'airflow',
     'start_date': datetime(2023, 8, 5),
-    'retries': 1,
+    'retries': 0,
     'Catchup': True,
     'retry_delay': timedelta(minutes=5),
     'email_on_retry': True,
