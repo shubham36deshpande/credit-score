@@ -240,7 +240,7 @@ with DAG(
     process_snf_data = PythonOperator(
         task_id = 'process_snf_data',
         python_callable=process_snf_data,
-        on_failure_callback = send_failure_email
+        # on_failure_callback = send_failure_email
     )
 	
 	# ---------------------------------------------------------
@@ -249,7 +249,7 @@ with DAG(
     clustering_function = PythonOperator(
         task_id="clustering_function", 
         python_callable=clustering_function, 
-        on_failure_callback=send_failure_email
+        # on_failure_callback=send_failure_email
         )
 	
 ##########################################################################
