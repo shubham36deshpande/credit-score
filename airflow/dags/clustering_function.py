@@ -46,7 +46,7 @@ def clustering_function():
     user='devops'
     password='qd7Lt76K2d1y'
     
-    database = 'CREDIT_SCORE_PHASE2'
+    database = 'CREDIT_SCORE_PHASE2_DEV'
     schema = 'psi'
     warehouse = 'credit_score_wh'
     role = 'ACCOUNTADMIN'
@@ -358,11 +358,11 @@ def clustering_function():
                 '/home/ubuntu/Result/output.csv', index=False)
 
             cs.execute("""
-                PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+                PUT 'file:///home/ubuntu/Result/output.csv' @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
             """)
         cs.execute("""
-                COPY INTO CREDIT_SCORE_PHASE2.psi.""" + file1 + """
-                FROM @CREDIT_SCORE_PHASE2.psi.%""" + file1 + """
+                COPY INTO CREDIT_SCORE_PHASE2_DEV.psi.""" + file1 + """
+                FROM @CREDIT_SCORE_PHASE2_DEV.psi.%""" + file1 + """
                 FILE_FORMAT = (TYPE = CSV COMPRESSION = AUTO SKIP_HEADER = 1 FIELD_DELIMITER = "," RECORD_DELIMITER = '\n' FIELD_OPTIONALLY_ENCLOSED_BY ='\042')
             """)
         cnn.commit()
@@ -459,7 +459,7 @@ def clustering_function():
 
     user='devops'
     password='qd7Lt76K2d1y'
-    db = 'CREDIT_SCORE_PHASE2'
+    db = 'CREDIT_SCORE_PHASE2_DEV'
     schema = 'psi'
     warehouse = 'credit_score_wh'
     role = 'ACCOUNTADMIN'
